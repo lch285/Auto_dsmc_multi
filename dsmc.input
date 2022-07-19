@@ -1,0 +1,34 @@
+seed 888729435
+units si
+dimension 3
+boundary oo rr rr
+
+create_box xmin xmax ymin ymax zmin zmax
+global fnum particle_ratio nrho particle_density temp temp_replace gridcut grid_cut surfmax 800 ncutbadnum 300 nedgebadnum 300
+create_grid xcells ycells zcells block * * *
+
+timestep time_step
+balance_grid rcb cell
+
+species species.list gas_species
+mixture inflowgas gas_species frac 1.0 vstream 20.0 0.00 0.0 temp temp_replace
+collide vss all collision.list
+create_particles inflowgas n 0
+
+read_surf fibergen.sparta particle check
+surf_collide 1 diffuse temp_replace 1.0
+surf_modify all collide 1
+
+#write_surf Surfaces/data.surf
+stats 100
+stats_style step np nattempt ncoll
+fix in emit/face inflowgas xlo subsonic P1 temp_replace
+fix out emit/face inflowgas xhi subsonic P2 NULL
+
+
+compute 1 thermal/grid all species temp
+compute 2 grid all species n mass massrho u v w
+fix 1 ave/grid all 1 62500 125000 c_1[*] c_2[*]
+dump 1 grid all 125000 flow.output idstr xlo ylo zlo xhi yhi zhi vol f_1[*]
+run 125000
+
