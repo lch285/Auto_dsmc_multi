@@ -387,7 +387,7 @@ def loop_process(x,ident,sims,pathmain,MainName):
     if x_out[0,3] != 0:
         f_member=open(member_log,'a')
         with open (pathf,'w') as f_log:
-            for j in range(0,len(z_out)):
+            for j in range(0,len(z_out)-1):
                 if j==0:
                     
                     f_log.write('%s ' %spec)
@@ -396,6 +396,10 @@ def loop_process(x,ident,sims,pathmain,MainName):
                 else:
                     f_log.write('%0.3f ' %z_out[j-1])
                     f_member.write('  %0.4f     ' %z_out[j-1])
+                    
+            f_log.write('%s' %z_out[-2])
+            f_member.write('   %s' %z_out[-2])
+            
             f_log.write('%s' %z_out[-1])
             f_member.write('   %s\n' %z_out[-1])
         f_member.close()
