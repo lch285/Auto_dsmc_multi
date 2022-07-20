@@ -251,6 +251,7 @@ def loop_process(x,ident,sims,pathmain,MainName):
  
         f3='submitLCC.sh' 
         for line in fileinput.input(f3,inplace=1):
+            line=line.replace('#SBATCH --job-name=np_101','#SBATCH --job-name=np_10%d' %temp_number,1)
             line=line.replace('#SBATCH -N nodes','#SBATCH -N %i'%N_nodes,1)
             line=line.replace('totalprocessors','%i'%total_processors,1)
             sys.stdout.write(line)
