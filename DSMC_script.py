@@ -163,9 +163,9 @@ def loop_process(x,ident,sims,pathmain,MainName):
     particle_density=(x[2]*6.023*10**23)/(8.314*x[1])
     mean_free_path=(1/(math.sqrt(2)*particle_density*math.pi*dref**2))*((x[1]/Tref)**(omega-0.5))
     collision_time=(math.sqrt((Molmass*6.023*10**23)/(4*math.pi*8.314*Tref)))*(1/(2*particle_density*dref**2))*((Tref/x[1])**(1-omega))
-    timefraction = 10
+    timefraction = 20
     time_step=collision_time/timefraction
-    spacefraction = 2
+    spacefraction = 3
     xcells=int((xmax-xmin)*spacefraction/mean_free_path)
     ycells=int((ymax-ymin)*spacefraction/mean_free_path)
     if xcells<201:
