@@ -15,6 +15,7 @@ from DSMC_script import loop_process
 from pp_parallel_auto import pp_parallel_fast
 from pp_parallel_auto import process
 from pp_parallel_auto import ComputeVal
+from alert import alert
 
 
 # Get path and main folder name
@@ -196,6 +197,11 @@ for i in range(len(variable_mtx)):
         else:
             f_r.write("%0.4f\n" %variable_mtx[i,j])
 f_r.close()
+
+email = 'lch285@g.uky.edu'
+phone = '8594901117@txt.att.net' # works for ATT
+alert('JobStatus', 'The simulations are done!', email)
+alert('JobStatus', 'The simulations are done!', phone)
 
 print('All done!!!')
         
