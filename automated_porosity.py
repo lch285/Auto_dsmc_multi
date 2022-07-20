@@ -139,7 +139,7 @@ if __name__ == '__main__':
 variable_force_mtx=variable_force_mtx.reshape(sim_run,-1)
 
 bigcasesresults = np.zeros(5)
-
+print('variable_force_mtx is', variable_force_mtx)
 for i in variable_force_mtx:
     if i[6] == 0:
         temp_number,domain_extend = i[3], i[5]
@@ -153,7 +153,7 @@ for i in variable_force_mtx:
         
         f_member=open(member_log,'a')
         with open (pathf,'w') as f_log:
-            for j in range(0,len(bigcasesresults)+2):
+            for j in range(0,len(bigcasesresults)+1):
                 if j==0:
                     
                     

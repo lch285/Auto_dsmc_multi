@@ -1,0 +1,2 @@
+Temp Gas  Porosity   Length Scale   Average Temp  Average Pressure   Effective Permeability
+ 0.0 Gas  0.7705       597.6483       1984.4868       0.0000       0.0000       50.0000        50.0

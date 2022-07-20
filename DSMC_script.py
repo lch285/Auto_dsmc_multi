@@ -355,7 +355,7 @@ def loop_process(x,ident,sims,pathmain,MainName):
             
     y_out = [spacefraction,timefraction, None ]
     x_out=np.zeros((1,len(x)+3))
-    if ncells > 2000000:
+    if ncells <= 2000000:
         
         #Postprocessing
         x_out[0,0]=porosity
@@ -368,7 +368,7 @@ def loop_process(x,ident,sims,pathmain,MainName):
         x_out[0,2] =  domain_extend
         
     
-    z_out = np.hstack((y_out, x_out))
+    z_out = np.hstack((y_out, x_out[0]))
     #Simulations results
      
     #copy files to results folder
@@ -377,9 +377,9 @@ def loop_process(x,ident,sims,pathmain,MainName):
     #shutil.copy('/pscratch/sjpo228_uksr/VijayMohan/dsmc_temp%d/structured.vts' %temp_number,'/pscratch/sjpo228_uksr/VijayMohan/Results/dsmc_temp%d/structured.vts' %(temp_number))
     shutil.copy( pathmain + '/dsmc_temp%d/collision.list' %temp_number, pathmain + '/Results_multi/dsmc_temp%d/collision.list' %(temp_number))
     shutil.copy( pathmain + '/dsmc_temp%d/species.list' %temp_number, pathmain + '/Results_multi/dsmc_temp%d/species.list' %(temp_number))
-    shutil.copy( pathmain + '/dsmc_temp%d/pp_force.py' %temp_number, pathmain + '/Results_multi/dsmc_temp%d/pp_force.py' %(temp_number))
     shutil.copy( pathmain + '/dsmc_temp%d/DSMC_script.py' %temp_number, pathmain + '/Results_multi/dsmc_temp%d/DSMC_script.py' %(temp_number))
     shutil.copy( pathmain + '/dsmc_temp%d/microstructure_values.dat' %temp_number, pathmain + '/Results_multi/dsmc_temp%d/microstructure_values.dat' %(temp_number))    
+    shutil.copy( pathmain + '/dsmc_temp%d/pp_parallel_auto.py' %temp_number, pathmain + '/Results_multi/dsmc_temp%d/pp_parallel_auto.py' %(temp_number))
     pathf=os.path.join(pathmain+'/Results_multi/dsmc_temp%d' %(temp_number),'log.txt')
     if x_out[0,3] != 0:
         f_member=open(member_log,'a')

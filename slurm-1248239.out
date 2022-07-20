@@ -1,0 +1,66 @@
+Job running on SLURM NODELIST: skylake029 
+/pscratch/sjpo228_uksr/LuisChacon/Permiability/FiberGen/LenghtScale/Temp7/Auto_dsmc_multi
+/pscratch/sjpo228_uksr/LuisChacon/Permiability/FiberGen/LenghtScale/Temp7
+/Auto_dsmc_multi
+sweepflag= F
+irest= 0
+imax= 200000000
+ablatesimulate= 0
+nfib_max= 1000000
+nel_max= 1000000
+ntri_max= 100000000
+*****Convergence based on porosity*****
+eps_nom=  0.77445
+elev_nom= 25.00
+azi_nom= 360.00
+frad_nom= 5.0000E-06
+frad_dev= 5.0000E-07
+x_box= 1.0000E-04
+y_box= 1.0000E-04
+z_box= 1.0000E-04
+x_off= 0.0000E+00
+dz= 1.0000E-05
+*****Radiation parameters*****
+intersect= F
+allowintersectoutside= T
+Qext= 1.000
+*****RUNNING CODE*****
+nfibs ntri porosity fiber_density          55       12210  7.705256247E-01  3.212641254E+02
+ grid extents:
+ xmin xmax  -8.1387799220598934E-006   1.0788328186267411E-004
+ ymin ymax  -1.0931601425321341E-005   1.1109861674534335E-004
+ zmin zmax  -1.0151459173241244E-005   1.0994989757971144E-004
+ box ratio    1.700418730391671     
+CODE RUN SUCCESSFULLY
+# of triangles in STL file: 12210
+# of vertices in SPARTA file: 6215
+# of triangles in SPARTA file: 12210
+converting
+Submitted batch job 1248240
+DSMC running 0
+DSMC running 0
+DSMC running 0
+multiprocessing.pool.RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "/home/lch285/.conda/envs/myenv/lib/python3.8/multiprocessing/pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+  File "/home/lch285/.conda/envs/myenv/lib/python3.8/multiprocessing/pool.py", line 51, in starmapstar
+    return list(itertools.starmap(args[0], args[1]))
+  File "/pscratch/sjpo228_uksr/LuisChacon/Permiability/FiberGen/LenghtScale/Temp7/Auto_dsmc_multi/DSMC_script.py", line 362, in loop_process
+    [x_out[0,2],x_out[0,3],x_out[0,4],x_out[0,5], y_out[2] ]=postprocess(temp_number,domain_extend,pathmain)
+  File "/pscratch/sjpo228_uksr/LuisChacon/Permiability/FiberGen/LenghtScale/Temp7/Auto_dsmc_multi/pp_generalized_auto.py", line 28, in postprocess
+    print(first_line)
+UnboundLocalError: local variable 'first_line' referenced before assignment
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "automated_porosity.py", line 136, in <module>
+    variable_force_mtx = np.array(pool.starmap(loop_process,[(i,np.asarray(np.where(np.all(sim_mtx==i,axis=1))),sims,pathmain,MainName) for i in sim_mtx]))
+  File "/home/lch285/.conda/envs/myenv/lib/python3.8/multiprocessing/pool.py", line 372, in starmap
+    return self._map_async(func, iterable, starmapstar, chunksize).get()
+  File "/home/lch285/.conda/envs/myenv/lib/python3.8/multiprocessing/pool.py", line 771, in get
+    raise self._value
+UnboundLocalError: local variable 'first_line' referenced before assignment
