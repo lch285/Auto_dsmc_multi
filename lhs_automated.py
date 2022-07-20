@@ -207,3 +207,5 @@ email = 'lch285@g.uky.edu'
 phone = '8594901117@txt.att.net' # works for ATT
 alert('JobStatus', 'The simulations are done!', email)
 alert('JobStatus', 'The simulations are done!', phone)
+
+print('All done!!!')
