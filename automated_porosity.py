@@ -158,8 +158,8 @@ for i in variable_force_mtx: # 2  1  50  0.770525  100  597.692  1984  1.4594864
             for j in range(0,len(bigcasesresults)-1):
                 if j==0:
 
-                    f_member.write('%s    ' %temp_number)
-                    f_member.write('Gas    ')
+                    f_member.write(' %i    ' %temp_number)
+                    f_member.write('Gas   ')
                     
                 else:
                     f_log.write('%0.3f    ' %bigcasesresults[j-1])

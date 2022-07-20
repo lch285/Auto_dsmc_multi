@@ -371,7 +371,7 @@ def loop_process(x,ident,sims,pathmain,MainName):
                 timefloat = float(s[1])
         y_out[2] = timefloat      
         x_out[0,0] =  porosity
-        x_out[0,1] = domain_extend
+        x_out[0,1] = x[0]
         x_out[0,2] =   temp_number
         
         
