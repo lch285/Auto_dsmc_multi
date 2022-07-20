@@ -267,7 +267,7 @@ def loop_process(x,ident,sims,pathmain,MainName):
     member_log=os.path.join(path_member_log,'member_log.txt' )
     f_member=open(member_log,'a')
     if os.path.getsize(member_log)==0:
-        f_member.write('Temp Gas  Porosity   Length Scale   Average Temp  Average Pressure   Effective Permeability\n ')
+        f_member.write('Temp Gas  spaceReso  timeReso Ntimesteps  Porosity  Length Scale  Average_Temp  Average_Pressure  Eff_Permeability  Permeability_Force\n')
         f_member.close()
     
     os.system('sbatch %s' % f3)
@@ -391,17 +391,17 @@ def loop_process(x,ident,sims,pathmain,MainName):
                 if j==0:
                     
                     f_log.write('%s ' %spec)
-                    f_member.write('%s ' %temp_number)
-                    f_member.write('  %s  ' %spec)
+                    f_member.write('%s   ' %temp_number)
+                    f_member.write('%s   ' %spec)
                 else:
-                    f_log.write('%0.3f ' %z_out[j-1])
-                    f_member.write('  %0.4f     ' %z_out[j-1])
+                    f_log.write('%0.3f  ' %z_out[j-1])
+                    f_member.write('%0.4f   ' %z_out[j-1])
                     
             f_log.write('%s' %z_out[-2])
-            f_member.write('   %s' %z_out[-2])
+            f_member.write('%s   ' %z_out[-2])
             
             f_log.write('%s' %z_out[-1])
-            f_member.write('   %s\n' %z_out[-1])
+            f_member.write('%s\n' %z_out[-1])
         f_member.close()
     
     os.chdir(pathmain+MainName)
