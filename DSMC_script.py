@@ -359,7 +359,7 @@ def loop_process(x,ident,sims,pathmain,MainName):
         
         #Postprocessing
         x_out[0,0]=porosity
-        [x_out[0,2],x_out[0,3],x_out[0,4],x_out[0,5], y_out[2] ]=postprocess(temp_number,domain_extend,pathmain)
+        [x_out[0,2],x_out[0,3],x_out[0,4],x_out[0,5], y_out[2] ]=postprocess(temp_number,domain_extend,pathmain)  # returning T, (P1+P2)/2, K, Perm_force,  timefloat  
         x_out[0,1]=x[0]
     else:
         
@@ -384,7 +384,7 @@ def loop_process(x,ident,sims,pathmain,MainName):
     if x_out[0,3] != 0:
         f_member=open(member_log,'a')
         with open (pathf,'w') as f_log:
-            for j in range(0,len(x)+2):
+            for j in range(0,len(z_out)):
                 if j==0:
                     
                     f_log.write('%s ' %spec)

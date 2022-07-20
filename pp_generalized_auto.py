@@ -168,5 +168,5 @@ def postprocess(temp_number,domain_extend,pathmain):
     if di==3:
         Perm_force=(viscosity*Mass_rate*T*8.314*l_sample)/(ly*lz*Molmass*6.022*10**23*(P1-P2))
         K=(integral*viscosity)/(ly*lz*(P1-P2))
-    return T,(P1+P2)/2,K, Perm_force,  timefloat  
+    return T, (P1+P2)/2, K, Perm_force,  timefloat  
             
