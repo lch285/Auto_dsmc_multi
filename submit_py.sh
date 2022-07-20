@@ -10,6 +10,6 @@ echo "Job running on SLURM NODELIST: $SLURM_NODELIST "
 module load ccs/conda/python-3.7.3
 conda activate myenv
 
-#python automated_porosity.py
-python lhs_automated.py
+python automated_porosity.py
+#python lhs_automated.py
 conda deactivate 

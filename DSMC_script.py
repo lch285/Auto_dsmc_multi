@@ -70,39 +70,39 @@ def loop_process(x,ident,sims,pathmain,MainName):
         sys.stdout.write(line)
             
     
-    # #Create grid.stl
-    #n=0
-    #n1=1
-    #os.system('/project/sjpo228_uksr/LuisChacon/git/fibergen/fibergen')
+     #Create grid.stl
+    n=0
+    n1=1
+    os.system('/project/sjpo228_uksr/LuisChacon/git/fibergen/fibergen')
     path_fibergen=(pathmain+'/dsmc_temp%d/microstructure_values.dat' %temp_number)
-    #flag_fiber_stop=1
-    #while(flag_fiber_stop):
-    #    if os.path.isfile(path_fibergen):
-    #        n=os.path.getsize(path_fibergen)
-    #        time.sleep(2)
-    #        n1=os.path.getsize(path_fibergen)
-    #    else:
-    #        time.sleep(2)
-    #        print('creating',flush=True)
-    #    if n==n1:
-    #        flag_fiber_stop=0
+    flag_fiber_stop=1
+    while(flag_fiber_stop):
+        if os.path.isfile(path_fibergen):
+            n=os.path.getsize(path_fibergen)
+            time.sleep(2)
+            n1=os.path.getsize(path_fibergen)
+        else:
+            time.sleep(2)
+            print('creating',flush=True)
+        if n==n1:
+            flag_fiber_stop=0
     
     #File conversion (grid.stl--fibergen.sparta)
-    #subprocess.Popen(["python", "stl2surf.py","grid_physical.stl","fibergen.sparta"])
-    #path_sparta=(pathmain+'/dsmc_temp%d/fibergen.sparta' %temp_number)
-    #flag_sparta=1
-    #n=0
-    #n1=1
-    #while(flag_sparta):
-    #    if os.path.isfile(path_sparta):
-    #        n=os.path.getsize(path_sparta)
-    #        time.sleep(2)
-    #        n1=os.path.getsize(path_sparta)
-    #    else:
-    #        time.sleep(2)
-    #        print('converting',flush=True)
-    #    if n==n1:
-    #        flag_sparta=0
+    subprocess.Popen(["python", "stl2surf.py","grid_physical.stl","fibergen.sparta"])
+    path_sparta=(pathmain+'/dsmc_temp%d/fibergen.sparta' %temp_number)
+    flag_sparta=1
+    n=0
+    n1=1
+    while(flag_sparta):
+        if os.path.isfile(path_sparta):
+            n=os.path.getsize(path_sparta)
+            time.sleep(2)
+            n1=os.path.getsize(path_sparta)
+        else:
+            time.sleep(2)
+            print('converting',flush=True)
+        if n==n1:
+            flag_sparta=0
             
     #Choose species
     # species_list=['CO','N2','Ar','O2','CO2']
@@ -218,7 +218,7 @@ def loop_process(x,ident,sims,pathmain,MainName):
         sys.stdout.write(line)
     
     # Get number of nodes and processes
-    cluster = 'NASA'
+    cluster = 'LCC'
 
     if cluster == 'NASA':
         N_processors = ncells/100000
