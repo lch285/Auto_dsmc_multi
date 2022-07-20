@@ -245,7 +245,10 @@ def loop_process(x,ident,sims,pathmain,MainName):
         N_processors_node = 48
         N_nodes = int(N_processors/N_processors_node+1)
         total_processors = N_processors_node*N_nodes
-        
+        if total_processors > 480:
+            total_processors = int(480/N_processors_node)*N_processors_node
+            N_nodes = total_processors/N_processors_node
+ 
         f3='submitLCC.sh' 
         for line in fileinput.input(f3,inplace=1):
             line=line.replace('#SBATCH -N nodes','#SBATCH -N %i'%N_nodes,1)

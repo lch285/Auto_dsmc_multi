@@ -65,7 +65,7 @@ f_re.close()
 if run_no==1:        
     f_input=open('textinput.txt','r')
     s=tuple()
-    input_files=2 #how many points
+    input_files=250 #how many points
     num_lines = sum(1 for line in open('textinput.txt'))
     input_mtx=np.zeros((num_lines,2))
     i=0
@@ -146,7 +146,7 @@ f_r.close()
 variable_force_mtx=np.zeros((sim_run,num_lines+1))
 Perm_force=np.zeros((sim_run,1))
 if __name__ == '__main__':
-    pool = mp.Pool(5)
+    pool = mp.Pool(6)
     variable_force_mtx = np.array(pool.starmap(loop_process,[(i,np.asarray(np.where(np.all(sim_mtx==i,axis=1))),sims,pathmain,MainName) for i in sim_mtx]))
     pool.close()
     
