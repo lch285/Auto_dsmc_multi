@@ -20,7 +20,7 @@ surf_collide 1 diffuse temp_replace 1.0
 surf_modify all collide 1
 
 #write_surf Surfaces/data.surf
-stats 50
+stats 100
 stats_style step np nattempt ncoll
 fix in emit/face inflowgas xlo subsonic P1 temp_replace
 fix out emit/face inflowgas xhi subsonic P2 NULL
@@ -28,7 +28,7 @@ fix out emit/face inflowgas xhi subsonic P2 NULL
 
 compute 1 thermal/grid all species temp
 compute 2 grid all species n mass massrho u v w
-fix 1 ave/grid all 1 25 50 c_1[*] c_2[*]
-dump 1 grid all 50 flow.output idstr xlo ylo zlo xhi yhi zhi vol f_1[*]
-run 50
+fix 1 ave/grid all 1 62500 125000 c_1[*] c_2[*]
+dump 1 grid all 125000 flow.output idstr xlo ylo zlo xhi yhi zhi vol f_1[*]
+run 125000
 
