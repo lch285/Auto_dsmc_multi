@@ -359,7 +359,7 @@ def loop_process(x,ident,sims,pathmain,MainName):
         
         #Postprocessing
         x_out[0,0]=porosity
-        x_out[0,1]=x[0] # lengthScale
+        x_out[0,1]=domain_extend*10**6 # lengthScale
         [x_out[0,2],x_out[0,3],x_out[0,4],x_out[0,5], y_out[2] ]=postprocess(temp_number,domain_extend,pathmain)  # returning T, (P1+P2)/2, K, Perm_force,  timefloat  
         
     else:
@@ -371,7 +371,7 @@ def loop_process(x,ident,sims,pathmain,MainName):
                 timefloat = float(s[1])
         y_out[2] = timefloat      
         x_out[0,0] =  porosity
-        x_out[0,1] = x[0]
+        x_out[0,1] = domain_extend*10**6 
         x_out[0,2] =   temp_number
         
         
