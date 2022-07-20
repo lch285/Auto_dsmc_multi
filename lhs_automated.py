@@ -15,7 +15,9 @@ import multiprocessing as mp
 from DSMC_script import loop_process
 from pyDOE import lhs
 from alert import alert
-
+from pp_parallel_auto import pp_parallel_fast
+from pp_parallel_auto import process
+from pp_parallel_auto import ComputeVal
 
 # Get path and main folder name
 path = os.getcwd()
@@ -63,7 +65,7 @@ f_re.close()
 if run_no==1:        
     f_input=open('textinput.txt','r')
     s=tuple()
-    input_files=450 #how many points
+    input_files=2 #how many points
     num_lines = sum(1 for line in open('textinput.txt'))
     input_mtx=np.zeros((num_lines,2))
     i=0
@@ -147,21 +149,58 @@ if __name__ == '__main__':
     pool = mp.Pool(5)
     variable_force_mtx = np.array(pool.starmap(loop_process,[(i,np.asarray(np.where(np.all(sim_mtx==i,axis=1))),sims,pathmain,MainName) for i in sim_mtx]))
     pool.close()
+    
 variable_force_mtx=variable_force_mtx.reshape(sim_run,-1)
 
-for i in range(sim_run):
-    Perm_force[i,0]=variable_force_mtx[i,num_lines]
-variable_force_mtx=np.delete(variable_force_mtx,-1,axis=1)
+bigcasesresults = np.zeros(5)
+print('variable_force_mtx is', variable_force_mtx)
+for i in variable_force_mtx: # 2  1  50  0.770525  100  597.692  1984  1.45948644e-09  7.90595398e-06
+    if i[6] == 0:
+        domain_extend, temp_number = i[4]*10**(-6), i[5]
+        bigcasesresults = pp_parallel_fast(temp_number,domain_extend,pathmain) # return T, (P1+P2)/2, K , Perm_force, timefloat
+        
+        
+        bigcasesresults = np.hstack((i[:5],bigcasesresults))
+        
+        
+        path_member_log=pathmain+MainName
+        member_log=os.path.join(path_member_log,'member_log.txt' )
+        pathf=os.path.join(pathmain+'/Results_multi/dsmc_temp%d' %(temp_number),'log.txt')
+        
+        f_member=open(member_log,'a')
+        with open (pathf,'w') as f_log:
+            for j in range(0,len(bigcasesresults)-1):
+                if j==0:
 
-#Stack matrix for SVR
-if run_no==1:
-    variable_svr_mtx=np.zeros((sim_run,num_lines))
-    perm_force_svr=np.zeros((sim_run,1))
-    variable_svr_mtx=variable_force_mtx
-    perm_force_svr=Perm_force
-else:
-    variable_svr_mtx=np.row_stack((variable_svr_mtx,variable_force_mtx))
-    perm_force_svr=np.row_stack((perm_force_svr,Perm_force))
+                    f_member.write(' %i    ' %temp_number)
+                    f_member.write('Gas   ')
+                    
+                else:
+                    f_log.write('%0.3f    ' %bigcasesresults[j-1])
+                    f_member.write('%0.4f    ' %bigcasesresults[j-1])
+                    
+            f_log.write('%s  ' %bigcasesresults[-2])
+            f_member.write('%s    ' %bigcasesresults[-2])
+            
+            f_log.write('%s' %bigcasesresults[-1])
+            f_member.write('%s\n' %bigcasesresults[-1])
+        f_member.close()
+
+
+
+# for i in range(sim_run):
+#     Perm_force[i,0]=variable_force_mtx[i,num_lines]
+# variable_force_mtx=np.delete(variable_force_mtx,-1,axis=1)
+
+# #Stack matrix for SVR
+# if run_no==1:
+#     variable_svr_mtx=np.zeros((sim_run,num_lines))
+#     perm_force_svr=np.zeros((sim_run,1))
+#     variable_svr_mtx=variable_force_mtx
+#     perm_force_svr=Perm_force
+# else:
+#     variable_svr_mtx=np.row_stack((variable_svr_mtx,variable_force_mtx))
+#     perm_force_svr=np.row_stack((perm_force_svr,Perm_force))
 
 
 email = 'lch285@g.uky.edu'
