@@ -311,7 +311,7 @@ def loop_process(x,ident,sims,pathmain,MainName):
             
             elif 'ERROR' in last_line:
                 inf_count +=1
-                
+                print('Trying to fix ERROR in temp%d: %i' % (temp_number, inf_count))
                 if inf_count >5:
                     break
                 
