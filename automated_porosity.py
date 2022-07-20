@@ -142,9 +142,11 @@ bigcasesresults = np.zeros(5)
 print('variable_force_mtx is', variable_force_mtx)
 for i in variable_force_mtx: # 2  1  50  0.770525  100  597.692  1984  1.45948644e-09  7.90595398e-06
     if i[6] == 0:
-        temp_number,domain_extend = i[3], i[5]
-        bigcasesresults = pp_parallel_fast(temp_number,domain_extend,pathmain)
-        bigcasesresults = np.hstack((i[4],bigcasesresults))
+        domain_extend, temp_number = i[4], i[5]
+        bigcasesresults = pp_parallel_fast(temp_number,domain_extend,pathmain) # return T, (P1+P2)/2, K , Perm_force, timefloat
+        
+        
+        bigcasesresults = np.hstack((i[:5],bigcasesresults))
         
         
         path_member_log=pathmain+MainName
@@ -153,18 +155,21 @@ for i in variable_force_mtx: # 2  1  50  0.770525  100  597.692  1984  1.4594864
         
         f_member=open(member_log,'a')
         with open (pathf,'w') as f_log:
-            for j in range(0,len(bigcasesresults)+1):
+            for j in range(0,len(bigcasesresults)-1):
                 if j==0:
-                    
-                    
-                    f_member.write('%s ' %temp_number)
-                    f_member.write('Gas')
+
+                    f_member.write('%s    ' %temp_number)
+                    f_member.write('Gas    ')
                     
                 else:
-                    f_log.write('%0.3f ' %bigcasesresults[j-1])
-                    f_member.write('  %0.4f     ' %bigcasesresults[j-1])
+                    f_log.write('%0.3f    ' %bigcasesresults[j-1])
+                    f_member.write('%0.4f    ' %bigcasesresults[j-1])
+                    
+            f_log.write('%s  ' %bigcasesresults[-2])
+            f_member.write('%s    ' %bigcasesresults[-2])
+            
             f_log.write('%s' %bigcasesresults[-1])
-            f_member.write('   %s\n' %bigcasesresults[-1])
+            f_member.write('%s\n' %bigcasesresults[-1])
         f_member.close()
 
 # for i in range(sim_run):

@@ -267,7 +267,7 @@ def loop_process(x,ident,sims,pathmain,MainName):
     member_log=os.path.join(path_member_log,'member_log.txt' )
     f_member=open(member_log,'a')
     if os.path.getsize(member_log)==0:
-        f_member.write('Temp Gas  spaceReso  timeReso Ntimesteps  Porosity  Length Scale  Average_Temp  Average_Pressure  Eff_Permeability  Permeability_Force\n')
+        f_member.write('Temp Gas  spaceReso  timeReso Ntimesteps  Porosity  Length_Scale  Average_Temp  Average_Pressure  Eff_Permeability  Permeability_Force\n')
         f_member.close()
     
     os.system('sbatch %s' % f3)
@@ -364,9 +364,16 @@ def loop_process(x,ident,sims,pathmain,MainName):
         
     else:
         
-        x_out[0,0] = temp_number
-        x_out[0,1] = porosity
-        x_out[0,2] =  domain_extend
+        f1=open(pathmain+'/dsmc_temp%d/dsmc.input' %temp_number,'r')
+        for line in f1:
+            if ('run') in line:
+                s=tuple(line.split())
+                timefloat = float(s[1])
+        y_out[2] = timefloat      
+        x_out[0,0] =  porosity
+        x_out[0,1] = domain_extend
+        x_out[0,2] =   temp_number
+        
         
     
     z_out = np.hstack((y_out, x_out[0])) # 2  1  50  0.770525  100  597.692  1984  1.45948644e-09  7.90595398e-06

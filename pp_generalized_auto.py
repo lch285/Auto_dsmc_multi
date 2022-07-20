@@ -51,6 +51,7 @@ def postprocess(temp_number,domain_extend,pathmain):
             s=tuple(line.split())
             timestep = s[1]+'\n'
             timefloat = float(s[1])
+    
     micro_domain[0,0]=sep_lim[0,0]+domain_extend
     micro_domain[0,1]=sep_lim[0,1]-domain_extend
     f1.close()
