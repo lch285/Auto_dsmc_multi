@@ -13,20 +13,7 @@ import math
 import csv
 def postprocess(temp_number,domain_extend,pathmain):
     os.chdir(pathmain+'/dsmc_temp%d' %temp_number)
-    timestep='10000\n'
-    time_flag=0
-    f=open(pathmain+'/dsmc_temp%d/flow.output' %temp_number,'r')
-    for num, line in enumerate(f, 1):
-        if line==timestep:
-            first_line=num
-            time_flag=1
-        if time_flag:
-            if 'ITEM: TIMESTEP' in line:
-                num=num-1
-                break
-    print(num)
-    print(first_line)
-    f.close()
+    
     variables=tuple()
     species=tuple()
     micro_domain=np.zeros((1,2))
@@ -67,7 +54,21 @@ def postprocess(temp_number,domain_extend,pathmain):
     micro_domain[0,0]=sep_lim[0,0]+domain_extend
     micro_domain[0,1]=sep_lim[0,1]-domain_extend
     f1.close()
-        
+    
+    time_flag=0
+    f=open(pathmain+'/dsmc_temp%d/flow.output' %temp_number,'r')
+    for num, line in enumerate(f, 1):
+        if line==timestep:
+            first_line=num
+            time_flag=1
+        if time_flag:
+            if 'ITEM: TIMESTEP' in line:
+                num=num-1
+                break
+    print(num)
+    print(first_line)
+    f.close()
+    
     # Dimensions
     nx, ny = int(cells_di[0]), int(cells_di[1])
     lx, ly = sep_di[0], sep_di[1]
