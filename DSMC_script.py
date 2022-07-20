@@ -355,7 +355,7 @@ def loop_process(x,ident,sims,pathmain,MainName):
             
     y_out = [spacefraction,timefraction, None ]
     x_out=np.zeros((1,len(x)+3))
-    if ncells <= 2000000:
+    if ncells <= 30000000:
         
         #Postprocessing
         x_out[0,0]=porosity
@@ -388,6 +388,7 @@ def loop_process(x,ident,sims,pathmain,MainName):
     shutil.copy( pathmain + '/dsmc_temp%d/DSMC_script.py' %temp_number, pathmain + '/Results_multi/dsmc_temp%d/DSMC_script.py' %(temp_number))
     shutil.copy( pathmain + '/dsmc_temp%d/microstructure_values.dat' %temp_number, pathmain + '/Results_multi/dsmc_temp%d/microstructure_values.dat' %(temp_number))    
     shutil.copy( pathmain + '/dsmc_temp%d/pp_parallel_auto.py' %temp_number, pathmain + '/Results_multi/dsmc_temp%d/pp_parallel_auto.py' %(temp_number))
+    shutil.copy( pathmain + '/dsmc_temp%d/inputdeck.in' %temp_number, pathmain + '/Results_multi/dsmc_temp%d/inputdeck.in' %(temp_number))
     pathf=os.path.join(pathmain+'/Results_multi/dsmc_temp%d' %(temp_number),'log.txt')
     
     print('z_out is', z_out)
