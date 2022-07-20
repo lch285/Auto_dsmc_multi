@@ -394,15 +394,23 @@ def loop_process(x,ident,sims,pathmain,MainName):
     #Simulations results
      
     #copy files to results folder
-    shutil.copy(pathmain+'/dsmc_temp%d/dsmc.input' %temp_number,pathmain+'/Results_multi/dsmc_temp%d/dsmc.input' %(temp_number))
-    shutil.copy(pathmain+'/dsmc_temp%d/flow.output' %temp_number,pathmain+'/Results_multi/dsmc_temp%d/flow.output' %(temp_number))
-    #shutil.copy('/pscratch/sjpo228_uksr/VijayMohan/dsmc_temp%d/structured.vts' %temp_number,'/pscratch/sjpo228_uksr/VijayMohan/Results/dsmc_temp%d/structured.vts' %(temp_number))
-    shutil.copy( pathmain + '/dsmc_temp%d/collision.list' %temp_number, pathmain + '/Results_multi/dsmc_temp%d/collision.list' %(temp_number))
-    shutil.copy( pathmain + '/dsmc_temp%d/species.list' %temp_number, pathmain + '/Results_multi/dsmc_temp%d/species.list' %(temp_number))
-    shutil.copy( pathmain + '/dsmc_temp%d/DSMC_script.py' %temp_number, pathmain + '/Results_multi/dsmc_temp%d/DSMC_script.py' %(temp_number))
-    shutil.copy( pathmain + '/dsmc_temp%d/microstructure_values.dat' %temp_number, pathmain + '/Results_multi/dsmc_temp%d/microstructure_values.dat' %(temp_number))    
-    shutil.copy( pathmain + '/dsmc_temp%d/pp_parallel_auto.py' %temp_number, pathmain + '/Results_multi/dsmc_temp%d/pp_parallel_auto.py' %(temp_number))
-    shutil.copy( pathmain + '/dsmc_temp%d/inputdeck.in' %temp_number, pathmain + '/Results_multi/dsmc_temp%d/inputdeck.in' %(temp_number))
+    files2save = ['dsmc.input', 'collision.list', 'species.list', 'inputdeck.in', 'flow.output', 'DSMC_script.py', \
+                 'microstructure_values.dat', 'pp_parallel_auto.py', 'pp_parallelFast.py']
+        
+    for file in files2save:
+        savepath = '/dsmc_temp%d/%s' % (temp_number, file)
+        shutil.copy(pathmain+ savepath ,pathmain+'/Results_multi' + savepath)
+        
+    # shutil.copy(pathmain+'/dsmc_temp%d/dsmc.input' %temp_number,pathmain+'/Results_multi/dsmc_temp%d/dsmc.input' %(temp_number))
+    # shutil.copy(pathmain+'/dsmc_temp%d/flow.output' %temp_number,pathmain+'/Results_multi/dsmc_temp%d/flow.output' %(temp_number))
+    # #shutil.copy('/pscratch/sjpo228_uksr/VijayMohan/dsmc_temp%d/structured.vts' %temp_number,'/pscratch/sjpo228_uksr/VijayMohan/Results/dsmc_temp%d/structured.vts' %(temp_number))
+    # shutil.copy( pathmain + '/dsmc_temp%d/collision.list' %temp_number, pathmain + '/Results_multi/dsmc_temp%d/collision.list' %(temp_number))
+    # shutil.copy( pathmain + '/dsmc_temp%d/species.list' %temp_number, pathmain + '/Results_multi/dsmc_temp%d/species.list' %(temp_number))
+    # shutil.copy( pathmain + '/dsmc_temp%d/DSMC_script.py' %temp_number, pathmain + '/Results_multi/dsmc_temp%d/DSMC_script.py' %(temp_number))
+    # shutil.copy( pathmain + '/dsmc_temp%d/microstructure_values.dat' %temp_number, pathmain + '/Results_multi/dsmc_temp%d/microstructure_values.dat' %(temp_number))    
+    # shutil.copy( pathmain + '/dsmc_temp%d/pp_parallel_auto.py' %temp_number, pathmain + '/Results_multi/dsmc_temp%d/pp_parallel_auto.py' %(temp_number))
+    # shutil.copy( pathmain + '/dsmc_temp%d/inputdeck.in' %temp_number, pathmain + '/Results_multi/dsmc_temp%d/inputdeck.in' %(temp_number))
+    
     pathf=os.path.join(pathmain+'/Results_multi/dsmc_temp%d' %(temp_number),'log.txt')
     
     print('z_out is', z_out)
