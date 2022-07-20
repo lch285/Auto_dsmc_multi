@@ -140,7 +140,7 @@ variable_force_mtx=variable_force_mtx.reshape(sim_run,-1)
 
 bigcasesresults = np.zeros(5)
 print('variable_force_mtx is', variable_force_mtx)
-for i in variable_force_mtx:
+for i in variable_force_mtx: # 2  1  50  0.770525  100  597.692  1984  1.45948644e-09  7.90595398e-06
     if i[6] == 0:
         temp_number,domain_extend = i[3], i[5]
         bigcasesresults = pp_parallel_fast(temp_number,domain_extend,pathmain)

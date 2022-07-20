@@ -359,8 +359,9 @@ def loop_process(x,ident,sims,pathmain,MainName):
         
         #Postprocessing
         x_out[0,0]=porosity
+        x_out[0,1]=x[0] # lengthScale
         [x_out[0,2],x_out[0,3],x_out[0,4],x_out[0,5], y_out[2] ]=postprocess(temp_number,domain_extend,pathmain)  # returning T, (P1+P2)/2, K, Perm_force,  timefloat  
-        x_out[0,1]=x[0]
+        
     else:
         
         x_out[0,0] = temp_number
@@ -368,7 +369,7 @@ def loop_process(x,ident,sims,pathmain,MainName):
         x_out[0,2] =  domain_extend
         
     
-    z_out = np.hstack((y_out, x_out[0]))
+    z_out = np.hstack((y_out, x_out[0])) # 2  1  50  0.770525  100  597.692  1984  1.45948644e-09  7.90595398e-06
     #Simulations results
      
     #copy files to results folder
@@ -381,6 +382,8 @@ def loop_process(x,ident,sims,pathmain,MainName):
     shutil.copy( pathmain + '/dsmc_temp%d/microstructure_values.dat' %temp_number, pathmain + '/Results_multi/dsmc_temp%d/microstructure_values.dat' %(temp_number))    
     shutil.copy( pathmain + '/dsmc_temp%d/pp_parallel_auto.py' %temp_number, pathmain + '/Results_multi/dsmc_temp%d/pp_parallel_auto.py' %(temp_number))
     pathf=os.path.join(pathmain+'/Results_multi/dsmc_temp%d' %(temp_number),'log.txt')
+    
+    print('z_out is', z_out)
     if x_out[0,3] != 0:
         f_member=open(member_log,'a')
         with open (pathf,'w') as f_log:
