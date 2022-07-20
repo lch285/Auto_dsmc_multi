@@ -77,7 +77,7 @@ def ComputeVal(variable_mtx,micro_domain,variables,di):
 
 
 def pp_parallel_fast(temp_number,domain_extend,pathmain):
-    os.chdir(pathmain+'/dsmc_temp%d' %temp_number)
+    os.chdir(pathmain+'/Results_multi/dsmc_temp%d' %temp_number)
     start = time.time()
     
     nproces = mp.cpu_count()
@@ -125,6 +125,7 @@ def pp_parallel_fast(temp_number,domain_extend,pathmain):
         if ('run') in line:
             s=tuple(line.split())
             timestep = s[1]+'\n'
+            timefloat = float(s[1])
             
     domain_extend= 1502.553 *10**(-6)
     micro_domain[0,0]=sep_lim[0,0]+domain_extend # if not a voxell file uncoment
@@ -312,4 +313,4 @@ def pp_parallel_fast(temp_number,domain_extend,pathmain):
     end = time.time()
     
     print('Total time: %.4f' % (end-start))
-    return T, (P1+P2)/2, K , Perm_force, timestep
+    return T, (P1+P2)/2, K , Perm_force, timefloat

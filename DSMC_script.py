@@ -14,6 +14,7 @@ import sys
 from pp_parallel_auto import pp_parallel_fast
 from pp_parallel_auto import process
 from pp_parallel_auto import ComputeVal
+from pp_generalized_auto import postprocess
 import time
 import math
 import subprocess
@@ -351,13 +352,21 @@ def loop_process(x,ident,sims,pathmain,MainName):
             print('creating',flush=True)
         if n==n1:
             flag_out_stop=0
-    
-    #Postprocessing
+            
     y_out = [spacefraction,timefraction, None ]
     x_out=np.zeros((1,len(x)+3))
-    x_out[0,0]=porosity
-    [x_out[0,2],x_out[0,3],x_out[0,4],x_out[0,5], y_out[2] ]=pp_parallel_fast(temp_number,domain_extend,pathmain)
-    x_out[0,1]=x[0]
+    if ncells > 2000000:
+        
+        #Postprocessing
+        x_out[0,0]=porosity
+        [x_out[0,2],x_out[0,3],x_out[0,4],x_out[0,5], y_out[2] ]=postprocess(temp_number,domain_extend,pathmain)
+        x_out[0,1]=x[0]
+    else:
+        
+        x_out[0,0] = temp_number
+        x_out[0,1] = porosity
+        x_out[0,2] =  domain_extend
+        
     
     z_out = np.hstack((y_out, x_out))
     #Simulations results
@@ -372,20 +381,21 @@ def loop_process(x,ident,sims,pathmain,MainName):
     shutil.copy( pathmain + '/dsmc_temp%d/DSMC_script.py' %temp_number, pathmain + '/Results_multi/dsmc_temp%d/DSMC_script.py' %(temp_number))
     shutil.copy( pathmain + '/dsmc_temp%d/microstructure_values.dat' %temp_number, pathmain + '/Results_multi/dsmc_temp%d/microstructure_values.dat' %(temp_number))    
     pathf=os.path.join(pathmain+'/Results_multi/dsmc_temp%d' %(temp_number),'log.txt')
-    f_member=open(member_log,'a')
-    with open (pathf,'w') as f_log:
-        for j in range(0,len(x)+2):
-            if j==0:
-                
-                f_log.write('%s ' %spec)
-                f_member.write('%s ' %temp_number)
-                f_member.write('  %s  ' %spec)
-            else:
-                f_log.write('%0.3f ' %z_out[j-1])
-                f_member.write('  %0.4f     ' %z_out[j-1])
-        f_log.write('%s' %z_out[-1])
-        f_member.write('   %s\n' %z_out[-1])
-    f_member.close()
+    if x_out[0,3] != 0:
+        f_member=open(member_log,'a')
+        with open (pathf,'w') as f_log:
+            for j in range(0,len(x)+2):
+                if j==0:
+                    
+                    f_log.write('%s ' %spec)
+                    f_member.write('%s ' %temp_number)
+                    f_member.write('  %s  ' %spec)
+                else:
+                    f_log.write('%0.3f ' %z_out[j-1])
+                    f_member.write('  %0.4f     ' %z_out[j-1])
+            f_log.write('%s' %z_out[-1])
+            f_member.write('   %s\n' %z_out[-1])
+        f_member.close()
     
     os.chdir(pathmain+MainName)
     
@@ -393,4 +403,4 @@ def loop_process(x,ident,sims,pathmain,MainName):
     if os.path.isdir(path):
         shutil.rmtree(path, ignore_errors=True)
     
-    return x_out
+    return z_out
