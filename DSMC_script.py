@@ -288,9 +288,10 @@ def loop_process(x,ident,sims,pathmain,MainName):
            os.mkdir(pathre)
     except OSError as err:
        print(err)
-    last_line='check'
+
     flag_stop=1
     inf_count = 0
+    foundlast_lines = 0
     while flag_stop:
         file_names=os.listdir(target_dir) # pathmain+'/dsmc_temp%d' %temp_number
         for file_name in file_names:
@@ -300,57 +301,59 @@ def loop_process(x,ident,sims,pathmain,MainName):
                     file_check=(os.path.join(target_dir,file_name))
                     with open(file_check, 'r') as f4:
                         last_lines = f4.readlines()[-5:]
+                        foundlast_lines = 1
                     break
+                
+        if foundlast_lines:
+            for last_line in last_lines:
+                if 'Histogram:' in last_line:
+                    time.sleep(3)
+                    flag_stop=0
+                    shutil.copy(file_check, os.path.join(pathre,file_name))
+                    break
+                
+                elif 'ERROR' in last_line:
+                    inf_count +=1
+                    print('Trying to fix ERROR in temp%d: %i' % (temp_number, inf_count))
+                    if inf_count >5:
+                        break
+                    
+                    xcellsold = xcells
+                    ycellsold = ycells
+                    zcellsold = zcells
+                    xcells += 10 
+                    ycells = int(xcells/3)
+                    zcells = int(xcells/3)
+                    
+                    
+                    particle_ratioold = particle_ratio
+                    ncells =xcells*ycells*zcells
+                    vol_cell=total_vol/ncells
+                    particle_count=vol_cell*particle_density
+                    particle_ratio=particle_count/50
+                    
+                    
+                    #Modify input file
+                    f='dsmc.input'
+                    for line in fileinput.input(f,inplace=1):
+                        if 'global fnum' in line:
+                            line=line.replace('%s'%particle_ratioold,str(particle_ratio),1)
         
-        for last_line in last_lines:
-            if 'Histogram:' in last_line:
-                time.sleep(3)
-                flag_stop=0
-                shutil.copy(file_check, os.path.join(pathre,file_name))
+                        if 'create_grid' in line:
+                            line=line.replace('%s'% xcellsold ,str(xcells),1)
+                            line=line.replace('%s'% ycellsold,str(ycells),1)
+                            if di == 3:
+                                line=line.replace('%s'% zcellsold,str(zcells),1)
+                    os.remove(target_dir+file_name)
+                    os.system('sbatch %s' % f3)
+                    
+                    
+                    
+                else:
+                    print('DSMC running %d' %temp_number, flush=True)
+                    time.sleep(3)
+            if inf_count > 5:
                 break
-            
-            elif 'ERROR' in last_line:
-                inf_count +=1
-                print('Trying to fix ERROR in temp%d: %i' % (temp_number, inf_count))
-                if inf_count >5:
-                    break
-                
-                xcellsold = xcells
-                ycellsold = ycells
-                zcellsold = zcells
-                xcells += 10 
-                ycells = int(xcells/3)
-                zcells = int(xcells/3)
-                
-                
-                particle_ratioold = particle_ratio
-                ncells =xcells*ycells*zcells
-                vol_cell=total_vol/ncells
-                particle_count=vol_cell*particle_density
-                particle_ratio=particle_count/50
-                
-                
-                #Modify input file
-                f='dsmc.input'
-                for line in fileinput.input(f,inplace=1):
-                    if 'global fnum' in line:
-                        line=line.replace('%s'%particle_ratioold,str(particle_ratio),1)
-    
-                    if 'create_grid' in line:
-                        line=line.replace('%s'% xcellsold ,str(xcells),1)
-                        line=line.replace('%s'% ycellsold,str(ycells),1)
-                        if di == 3:
-                            line=line.replace('%s'% zcellsold,str(zcells),1)
-                os.remove(target_dir+file_name)
-                os.system('sbatch %s' % f3)
-                
-                
-                
-            else:
-                print('DSMC running %d' %temp_number, flush=True)
-                time.sleep(3)
-        if inf_count > 5:
-            break
         
     path_output=(pathmain+'/dsmc_temp%d/flow.output' %temp_number)
     flag_out_stop=1
