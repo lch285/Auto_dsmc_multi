@@ -352,9 +352,14 @@ def loop_process(x,ident,sims,pathmain,MainName):
                 else:
                     print('DSMC running %d' %temp_number, flush=True)
                     time.sleep(3)
+                    
             if inf_count > 5:
                 break
         
+        else:
+            print('DSMC running %d' %temp_number, flush=True)
+            time.sleep(3)
+            
     path_output=(pathmain+'/dsmc_temp%d/flow.output' %temp_number)
     flag_out_stop=1
     n=0
