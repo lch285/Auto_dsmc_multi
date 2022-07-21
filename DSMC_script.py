@@ -105,9 +105,71 @@ def loop_process(x,ident,sims,pathmain,MainName):
                 print('converting',flush=True)
             if n==n1:
                 flag_sparta=0
+                
     elif typestl == 'XRCT':
+        
         path_fibergen=(pathmain+'/dsmc_temp%d/microstructure_values.dat' %temp_number)
-    
+        targetfile = (pathmain+'/dsmc_temp%d/fibergen.sparta' %temp_number)
+        
+        if os.path.exists(path_fibergen):
+            os.remove(path_fibergen)
+        
+        with open(targetfile, 'r') as f:
+
+            firstline_flag = 0 
+            lastline_flag = 0
+            
+            npoint = 0 
+            xminstl = 0
+            xmaxstl = 0
+            yminstl = 0
+            ymaxstl = 0
+            zminstl = 0
+            zmaxstl = 0
+                
+            for num, line in enumerate(f):
+                if line == 'Points\n':
+                    firstlinenum = num
+                    firstline_flag =1
+                
+                if firstline_flag and num >= firstlinenum+2:
+                    if line == '\n':
+                        lastline_flag = 1
+                        
+                    if lastline_flag == 0:
+                        s=tuple()
+                        s = line.split()
+                        for i in range(len(s)):
+                            s[i] = float(s[i])
+                            
+                        if npoint == 0:
+
+                            xminstl = s[1]
+                            xmaxstl = s[1]
+                            yminstl = s[2]
+                            ymaxstl = s[2]
+                            zminstl = s[3]
+                            zmaxstl = s[3]                    
+                            npoint += 1
+                        
+                        if s[1] < xminstl:
+                            xminstl = s[1]                 
+                        if s[1] > xmaxstl:
+                            xmaxstl = s[1]             
+                        if s[2] < yminstl:
+                            yminstl = s[2]                   
+                        if s[2] > ymaxstl:
+                            ymaxstl = s[2]               
+                        if s[3] < zminstl:
+                            zminstl = s[3]                    
+                        if s[3] > zmaxstl:
+                            zmaxstl = s[3]
+                            
+                        npoint += 1
+
+        with open(path_fibergen, 'w') as fw:
+            fw.write('%s %s %s %s %s %s %s 1.0' % (porosity, xminstl, xmaxstl, yminstl, ymaxstl, zminstl, zmaxstl) )
+        
             
     #Choose species
     # species_list=['CO','N2','Ar','O2','CO2']
