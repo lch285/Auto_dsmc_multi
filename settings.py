@@ -30,6 +30,7 @@ if __name__ == '__main__':
     convergence_flag = False
     
     if convergence_flag:
+        # Just change one at a time
         
         Tconverg = 600 # C
         Pconverg = 2000 # Pa
