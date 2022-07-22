@@ -34,7 +34,7 @@ def automated(cluster, typestl, stlfile, convertionfactor, convergence_flag , Ta
             os.mkdir(pathr)
     except OSError as err:
             print(err)
-            
+    
     #Read Input
     s_re=tuple()
     f_re=open('Restart.txt','r')
@@ -141,10 +141,19 @@ def automated(cluster, typestl, stlfile, convertionfactor, convergence_flag , Ta
         sim_mtx[i]=variable_mtx[0]
         variable_mtx=np.delete(variable_mtx,0,0)
     
-    #DSMC Simulations
-    Perm_force=np.zeros((sim_run,1))
     
-
+    #Write Restart file
+    f_r=open('Restart_next.txt','w+')
+    f_r.write("%d\n" %(run_no+1))
+    for i in range(len(variable_mtx)):
+        for j in range(num_lines):
+            if j<num_lines-1:
+                f_r.write("%0.4f " %variable_mtx[i,j])
+            else:
+                f_r.write("%0.4f\n" %variable_mtx[i,j])
+    f_r.close()
+    
+    #DSMC Simulations
     if __name__ == 'automated_multy':
         
         pool = mp.Pool(2)
