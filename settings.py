@@ -23,6 +23,9 @@ if __name__ == '__main__':
     stlfile = '200cube.stl'
     convertionfactor = '10**-9'
     
+    poolsize = 6
+    maxjobperrun = 25
+    
     """
     Convergence test
     
@@ -148,7 +151,7 @@ if __name__ == '__main__':
     
     if (int(lhs_flag) + int(regular_flag) + int(convergence_flag)) == 1:
         
-        automated(cluster, typestl, stlfile, convertionfactor, convergence_flag , TandP, casesConverg)
+        automated(cluster, typestl, stlfile, convertionfactor, convergence_flag , TandP, casesConverg, poolsize, maxjobperrun)
 
     
     

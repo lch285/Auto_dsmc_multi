@@ -15,7 +15,7 @@ from DSMC_script_multy import loop_process
 from pp_parallel_auto import pp_parallel_fast
 from alert import alert
 
-def automated(cluster, typestl, stlfile, convertionfactor, convergence_flag , TandP, casesConverg):
+def automated(cluster, typestl, stlfile, convertionfactor, convergence_flag , TandP, casesConverg, poolsize, maxjobperrun):
     
     # Get path and main folder name
     path = os.getcwd()
@@ -133,7 +133,7 @@ def automated(cluster, typestl, stlfile, convertionfactor, convergence_flag , Ta
             num_lines=n_re
     
     #Split Matrix
-    sim_run=25
+    sim_run=maxjobperrun
     if sim_run>input_files:
         sim_run=input_files
     sim_mtx=np.zeros((sim_run,num_lines))
@@ -156,7 +156,7 @@ def automated(cluster, typestl, stlfile, convertionfactor, convergence_flag , Ta
     #DSMC Simulations
     if __name__ == 'automated_multy':
         
-        pool = mp.Pool(2)
+        pool = mp.Pool(poolsize)
         
         if convergence_flag:
             variable_force_mtx = np.array(pool.starmap(loop_process,[( cluster, typestl, stlfile, convertionfactor, TandP, i, convergence_flag,  np.asarray(np.where(np.all(sim_mtx==i,axis=1))),sims,pathmain,MainName) for i in sim_mtx]))
