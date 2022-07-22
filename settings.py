@@ -9,7 +9,7 @@ Created on Thu Jul 21 13:55:58 2022
 from automated_multy import automated
 import numpy as np
 from pyDOE import lhs
-
+import os
 
 if __name__ == '__main__':
 
@@ -17,11 +17,11 @@ if __name__ == '__main__':
     Basic settings
     
     """
-    cluster = 'LCC' # either 'LCC' , 'NASA', or 'MCC'
+    cluster = 'NASA' # either 'LCC' , 'NASA', or 'MCC'
     typestl = 'XRCT' # either 'XRCT' or 'Fibergen'
     
     stlfile = '200cube.stl'
-    convertionfactor = '10**-9'
+    convertionfactor = '10**-6'
     
     poolsize = 6
     maxjobperrun = 25
@@ -115,9 +115,9 @@ if __name__ == '__main__':
         Npoints = 2 # Number of points to generate
         
         Tmin = 300
-        Tmax = 3500
-        Pmin = 250
-        Pmax = 3000
+        Tmax = 400
+        Pmin = 1000
+        Pmax = 2000
         
         if typestl == 'Fibergen':
             
@@ -151,8 +151,12 @@ if __name__ == '__main__':
     
     if (int(lhs_flag) + int(regular_flag) + int(convergence_flag)) == 1:
         
-        automated(cluster, typestl, stlfile, convertionfactor, convergence_flag , TandP, casesConverg, poolsize, maxjobperrun)
-
+        if os.path.exists(stlfile) or typestl == 'Fibergen':
+        
+            automated(cluster, typestl, stlfile, convertionfactor, convergence_flag , TandP, casesConverg, poolsize, maxjobperrun)
+            
+        else:
+            print('stl file does not exist!!')
     
     
     

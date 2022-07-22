@@ -14,6 +14,7 @@ import sys
 import time
 import math
 import subprocess
+from pp_generalized_auto import postprocess
 
 
 def loop_process(cluster, typestl, stlfile, convertionfactor, x,caseConverg, convergence_flag, ident,sims,pathmain,MainName):
@@ -319,9 +320,11 @@ def loop_process(cluster, typestl, stlfile, convertionfactor, x,caseConverg, con
             total_processors = int(20000/N_processors_node)*N_processors_node
             N_nodes = total_processors/N_processors_node
         
+        submitcommand = 'qsub'
         f3='submitNAS.sh' 
         for line in fileinput.input(f3,inplace=1):
             line=line.replace('nodes:ncpus=processors:mpiprocs=processors','%i:ncpus=%i:mpiprocs=%i'% (N_nodes, N_processors_node, N_processors_node),1)
+            line=line.replace('slurmtemp','slurm%i'%temp_number,1)
             line=line.replace('totalprocessors','%i'%total_processors,1)
             sys.stdout.write(line)
         
@@ -333,7 +336,8 @@ def loop_process(cluster, typestl, stlfile, convertionfactor, x,caseConverg, con
         if total_processors > 480:
             total_processors = int(480/N_processors_node)*N_processors_node
             N_nodes = total_processors/N_processors_node
- 
+        
+        submitcommand = 'sbatch'
         f3='submitLCC.sh' 
         for line in fileinput.input(f3,inplace=1):
             line=line.replace('#SBATCH --job-name=np_101','#SBATCH --job-name=np_10%d' % temp_number,1)
@@ -365,7 +369,7 @@ def loop_process(cluster, typestl, stlfile, convertionfactor, x,caseConverg, con
         f_member.write('Temp Gas  spaceReso  timeReso Ntimesteps  Porosity  Length_Scale  Average_Temp  Average_Pressure  Eff_Permeability  Permeability_Force\n')
         f_member.close()
     
-    os.system('sbatch %s' % f3)
+    os.system('%s %s' % (submitcommand, f3))
     
     #check for stop
     pathre=pathmain+'/Results_multi/dsmc_temp%d' %(temp_number)
@@ -381,12 +385,22 @@ def loop_process(cluster, typestl, stlfile, convertionfactor, x,caseConverg, con
     while flag_stop:
         file_names=os.listdir(target_dir) # pathmain+'/dsmc_temp%d' %temp_number
         for file_name in file_names:
-            if file_name.endswith('.out'):
+            
+            if cluster == 'LCC':
+                if file_name.endswith('.out'):
+                    if 'slurm' in file_name:
+                        time.sleep(3)
+                        file_check=(os.path.join(target_dir,file_name))
+                        with open(file_check, 'r') as f4:
+                            last_lines = f4.readlines()[-5:]
+                            foundlast_lines = 1
+                        break
+            elif cluster == 'NASA':
                 if 'slurm' in file_name:
                     time.sleep(3)
                     file_check=(os.path.join(target_dir,file_name))
                     with open(file_check, 'r') as f4:
-                        last_lines = f4.readlines()[-5:]
+                        last_lines = f4.readlines()[-23:]
                         foundlast_lines = 1
                     break
                 
@@ -440,6 +454,7 @@ def loop_process(cluster, typestl, stlfile, convertionfactor, x,caseConverg, con
                     time.sleep(3)
                     
             if inf_count > 5:
+                flag_stop = 0
                 break
         
         else:
