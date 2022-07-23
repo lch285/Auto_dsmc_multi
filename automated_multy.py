@@ -153,6 +153,12 @@ def automated(cluster, typestl, stlfile, convertionfactor, convergence_flag , Ta
                 f_r.write("%0.4f\n" %variable_mtx[i,j])
     f_r.close()
     
+    
+    #Crate file to track bigcases in run
+    with open('bigcases.txt','a') as f:
+        f.write('\nRun %i:\n' % run_no)
+
+    
     #DSMC Simulations
     if __name__ == 'automated_multy':
         
@@ -177,12 +183,8 @@ def automated(cluster, typestl, stlfile, convertionfactor, convergence_flag , Ta
                 
                 domain_extend, temp_number = i[4]*10**(-6), i[5]
                 
-                #Crate file to track bigcases in run
-                with open('bigcases.txt','a') as f:
-                    if flagbigcases:
-                        f.write('Run %i:\n' % run_no)
-                        flagbigcases = 0
-                    f.write('%i\n' % temp_number)
+                
+                    
                 
                 bigcasesresults = pp_parallel_fast(temp_number,domain_extend,pathmain) # return T, (P1+P2)/2, K , Perm_force, timefloat
                 
