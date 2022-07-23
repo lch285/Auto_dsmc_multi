@@ -452,17 +452,10 @@ def loop_process(cluster, typestl, stlfile, convertionfactor, x,caseConverg, con
                         sys.stdout.write(line)
                     os.remove(target_dir+file_name)
                     os.system('sbatch %s' % f3)
-<<<<<<< HEAD
                     
                 elif 'UCX  ERROR' not in last_line:
                     flag_stop = 0    
-<<<<<<< HEAD
-=======
-=======
                     foundlast_lines = 0
-                    
->>>>>>> f00184338100bbbe23ad1a9c059b744dbcbe3bf3
->>>>>>> bb6975675ee6bb05e5352531dc3087b696aae105
                     
                 else:
                     print('DSMC running %d' %temp_number, flush=True)
