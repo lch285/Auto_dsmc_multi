@@ -422,10 +422,6 @@ def loop_process(cluster, typestl, stlfile, convertionfactor, x,caseConverg, con
                 
                 elif 'ERROR' in last_line and 'UCX  ERROR' not in last_line:
 
-                    # add to bigcases.txt the temp_number
-                    with open(pathmain+MainName+'/bigcases.txt','a') as f:
-                        f.write('%i\n' % temp_number)
-
                     inf_count +=1
                     print('Trying to fix ERROR in temp%d: %i' % (temp_number, inf_count))
                     if inf_count >5:
