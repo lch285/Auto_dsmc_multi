@@ -412,7 +412,12 @@ def loop_process(cluster, typestl, stlfile, convertionfactor, x,caseConverg, con
                     shutil.copy(file_check, os.path.join(pathre,file_name))
                     break
                 
-                elif 'ERROR' in last_line:
+                elif 'ERROR' in last_line and 'UCX  ERROR' not in last_line:
+
+                    # add to bigcases.txt the temp_number
+                    with open(pathmain+MainName+'/bigcases.txt','a') as f:
+                        f.write('%i\n' % temp_number)
+
                     inf_count +=1
                     print('Trying to fix ERROR in temp%d: %i' % (temp_number, inf_count))
                     if inf_count >5:
@@ -447,8 +452,14 @@ def loop_process(cluster, typestl, stlfile, convertionfactor, x,caseConverg, con
                         sys.stdout.write(line)
                     os.remove(target_dir+file_name)
                     os.system('sbatch %s' % f3)
+<<<<<<< HEAD
+                    
+                elif 'UCX  ERROR' not in last_line:
+                    flag_stop = 0    
+=======
                     foundlast_lines = 0
                     
+>>>>>>> f00184338100bbbe23ad1a9c059b744dbcbe3bf3
                     
                 else:
                     print('DSMC running %d' %temp_number, flush=True)
