@@ -406,9 +406,10 @@ def loop_process(x,ident,sims,pathmain,MainName):
                             line=line.replace('%s'% ycellsold,str(ycells),1)
                             if di == 3:
                                 line=line.replace('%s'% zcellsold,str(zcells),1)
+                        sys.stdout.write(line)
                     os.remove(target_dir+file_name)
                     os.system('sbatch %s' % f3)
-                    
+                    foundlast_lines = 0
                     
                     
                 else:
