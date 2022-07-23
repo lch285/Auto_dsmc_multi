@@ -312,7 +312,7 @@ def loop_process(cluster, typestl, stlfile, convertionfactor, x,caseConverg, con
 
 
     if cluster == 'NASA':
-        N_processors = ncells/100000
+        N_processors = ncells/70000
         N_processors_node = 20
         N_nodes = int(N_processors/N_processors_node+1)
         total_processors = N_processors_node*N_nodes
@@ -382,18 +382,19 @@ def loop_process(cluster, typestl, stlfile, convertionfactor, x,caseConverg, con
     flag_stop=1
     inf_count = 0
     foundlast_lines = 0
+    ERROR_flag = 0
     identnum = 'lol'
     while flag_stop:
         file_names=os.listdir(target_dir) # pathmain+'/dsmc_temp%d' %temp_number
         for file_name in file_names:
             
-            if foundlast_lines and file_name.endswith(identnum):
+            if ERROR_flag and file_name.endswith(identnum):
                 
                 os.remove(target_dir+file_name)
+                ERROR_flag = 0
                 foundlast_lines = 0
-                
             else:
-                
+                foundlast_lines = 0 
                 if cluster == 'LCC':
                     if file_name.endswith('.out'):
                         if 'slurm' in file_name:
@@ -458,7 +459,7 @@ def loop_process(cluster, typestl, stlfile, convertionfactor, x,caseConverg, con
                     identnum = file_name[index+1:]
                     os.remove(target_dir+file_name)
                     os.system('%s %s' % (submitcommand,f3))
-                    
+                    ERROR_flag = 1
                 elif 'UCX  ERROR' not in last_line:
                     flag_stop = 0    
                     
