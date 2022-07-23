@@ -303,7 +303,7 @@ def loop_process(x,ident,sims,pathmain,MainName):
             sys.stdout.write(line)
         
     elif cluster == 'LCC':
-        N_processors = ncells/70000
+        N_processors = ncells/80000
         N_processors_node = 48
         N_nodes = int(N_processors/N_processors_node+1)
         total_processors = N_processors_node*N_nodes
@@ -448,7 +448,10 @@ def loop_process(x,ident,sims,pathmain,MainName):
         [x_out[0,2],x_out[0,3],x_out[0,4],x_out[0,5], y_out[2] ]=postprocess(temp_number,domain_extend,pathmain)  # returning T, (P1+P2)/2, K, Perm_force,  timefloat  
         
     else:
-        
+        # add to bigcases.txt the temp_number
+        with open(pathmain+MainName+'/bigcases.txt','a') as f:
+            f.write('%i\n' % temp_number)
+
         f1=open(pathmain+'/dsmc_temp%d/dsmc.input' %temp_number,'r')
         for line in f1:
             if ('run') in line:

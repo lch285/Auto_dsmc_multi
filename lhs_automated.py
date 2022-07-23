@@ -142,6 +142,10 @@ for i in range(len(variable_mtx)):
             f_r.write("%0.4f\n" %variable_mtx[i,j])
 f_r.close()
 
+#Crate file to track bigcases in run
+with open('bigcases.txt','a') as f:
+    f.write('\nRun %i:\n' % run_no)
+
 #DSMC Simulations
 variable_force_mtx=np.zeros((sim_run,num_lines+1))
 Perm_force=np.zeros((sim_run,1))
