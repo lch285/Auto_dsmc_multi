@@ -416,6 +416,7 @@ def loop_process(cluster, typestl, stlfile, convertionfactor, x,caseConverg, con
         if foundlast_lines:
             for last_line in last_lines:
                 if 'Histogram:' in last_line:
+                    print('Found Histogram in temp %i' % temp_number)
                     time.sleep(3)
                     flag_stop=0
                     shutil.copy(file_check, os.path.join(pathre,file_name))
@@ -461,6 +462,7 @@ def loop_process(cluster, typestl, stlfile, convertionfactor, x,caseConverg, con
                     os.system('%s %s' % (submitcommand,f3))
                     ERROR_flag = 1
                 elif 'UCX  ERROR' not in last_line:
+                    print('Job does not have enough memory!')
                     flag_stop = 0    
                     
                     
@@ -558,5 +560,6 @@ def loop_process(cluster, typestl, stlfile, convertionfactor, x,caseConverg, con
     #remove temp dsmc folder
     if os.path.isdir(path):
         shutil.rmtree(path, ignore_errors=True)
+    print('Returning from temp %i!'%temp_number)
     
     return z_out
