@@ -458,7 +458,7 @@ def loop_process(cluster, typestl, stlfile, convertionfactor, x,caseConverg, con
                             if di == 3:
                                 line=line.replace('%s'% zcellsold,str(zcells),1)
                         sys.stdout.write(line)
-                    index = file_name.rfind("m")
+                    index = file_name.rfind(".")
                     identnum = file_name[index+1:]
                     os.remove(target_dir+file_name)
                     os.system('sbatch %s' % f3)

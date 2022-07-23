@@ -1,7 +1,7 @@
 #PBS -S /bin/bash
-#PBS -l walltime=120:00:00
-#PBS -l select=nodes:ncpus=processors:mpiprocs=processors:model=sky_ele
-#PBS -N slurmtemp
+#PBS -l walltime=96:00:00
+#PBS -l select=1:ncpus=40:mpiprocs=40:model=sky_ele
+#PBS -N Automated
 #PBS -j oe
 #PBS -q long
 #PBS -m a
@@ -15,8 +15,9 @@ module purge
 module load gcc/8.4
 module load comp-intel/2020.4.304
 module load mpi-intel/2020.0.166
-
+module load python3/3.9.5
 module list
+
 export jobid=`echo $PBS_JOBID | awk -F . '{print $1}'`
 
-mpiexec -np totalprocessors /u/lchacon/git/dsmc/src/spa_mpi -in dsmc.input > slurmtemp.$jobid
+python settings.py > Automated.$jobid
