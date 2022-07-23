@@ -461,7 +461,7 @@ def loop_process(cluster, typestl, stlfile, convertionfactor, x,caseConverg, con
                     index = file_name.rfind(".")
                     identnum = file_name[index+1:]
                     os.remove(target_dir+file_name)
-                    os.system('sbatch %s' % f3)
+                    os.system('%s %s' % (submitcommand,f3))
                     
                 elif 'UCX  ERROR' not in last_line:
                     flag_stop = 0    
