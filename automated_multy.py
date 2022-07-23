@@ -153,6 +153,10 @@ def automated(cluster, typestl, stlfile, convertionfactor, convergence_flag , Ta
                 f_r.write("%0.4f\n" %variable_mtx[i,j])
     f_r.close()
     
+    #Crate file to track bigcases in run
+    with open('bigcases.txt','a') as f:
+        f.write('\nRun %i:\n' % run_no)
+
     #DSMC Simulations
     if __name__ == 'automated_multy':
         

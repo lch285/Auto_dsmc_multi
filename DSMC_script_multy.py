@@ -313,7 +313,7 @@ def loop_process(cluster, typestl, stlfile, convertionfactor, x,caseConverg, con
 
     if cluster == 'NASA':
         N_processors = ncells/100000
-        N_processors_node = 30
+        N_processors_node = 20
         N_nodes = int(N_processors/N_processors_node+1)
         total_processors = N_processors_node*N_nodes
         if total_processors > 20000:
@@ -412,7 +412,12 @@ def loop_process(cluster, typestl, stlfile, convertionfactor, x,caseConverg, con
                     shutil.copy(file_check, os.path.join(pathre,file_name))
                     break
                 
-                elif 'ERROR' in last_line:
+                elif 'ERROR' in last_line and 'UCX  ERROR' not in last_line:
+
+                    # add to bigcases.txt the temp_number
+                    with open(pathmain+MainName+'/bigcases.txt','a') as f:
+                        f.write('%i\n' % temp_number)
+
                     inf_count +=1
                     print('Trying to fix ERROR in temp%d: %i' % (temp_number, inf_count))
                     if inf_count >5:
@@ -444,10 +449,12 @@ def loop_process(cluster, typestl, stlfile, convertionfactor, x,caseConverg, con
                             line=line.replace('%s'% ycellsold,str(ycells),1)
                             if di == 3:
                                 line=line.replace('%s'% zcellsold,str(zcells),1)
+                        sys.stdout.write(line)
                     os.remove(target_dir+file_name)
                     os.system('sbatch %s' % f3)
                     
-                    
+                elif 'UCX  ERROR' not in last_line:
+                    flag_stop = 0    
                     
                 else:
                     print('DSMC running %d' %temp_number, flush=True)
