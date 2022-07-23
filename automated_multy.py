@@ -173,25 +173,18 @@ def automated(cluster, typestl, stlfile, convertionfactor, convergence_flag , Ta
         
         ###### I am hereeeee!!!
         variable_force_mtx=variable_force_mtx.reshape(sim_run,-1)
-        
-    
+
         print('variable_force_mtx is', variable_force_mtx)
         flagbigcases = 1
         for i in variable_force_mtx: # 2  1  50  0.770525  100  597.692  1984  1.45948644e-09  7.90595398e-06
             if i[6] == 0:
-
-                
+       
                 domain_extend, temp_number = i[4]*10**(-6), i[5]
-                
-                
-                    
-                
+         
                 bigcasesresults = pp_parallel_fast(temp_number,domain_extend,pathmain) # return T, (P1+P2)/2, K , Perm_force, timefloat
-                
-                
+       
                 bigcasesresults = np.hstack((i[:5],bigcasesresults))
-                
-                
+    
                 path_member_log=pathmain+MainName
                 member_log=os.path.join(path_member_log,'member_log.txt' )
                 pathf=os.path.join(pathmain+'/Results_multi/dsmc_temp%d' %(temp_number),'log.txt')
