@@ -303,7 +303,7 @@ def loop_process(x,ident,sims,pathmain,MainName):
             sys.stdout.write(line)
         
     elif cluster == 'LCC':
-        N_processors = ncells/100000
+        N_processors = ncells/70000
         N_processors_node = 48
         N_nodes = int(N_processors/N_processors_node+1)
         total_processors = N_processors_node*N_nodes
