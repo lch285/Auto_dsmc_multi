@@ -130,6 +130,9 @@ for i in range(sim_run):
 variable_force_mtx=np.zeros((sim_run,num_lines+1))
 Perm_force=np.zeros((sim_run,1))
 
+#crate file to track bigcases in run
+with open('bigcases.txt','a') as f:
+    f.write('\nRun %i:\n' % run_no)
 
 if __name__ == '__main__':
     
