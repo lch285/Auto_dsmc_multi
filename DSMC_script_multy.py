@@ -382,27 +382,35 @@ def loop_process(cluster, typestl, stlfile, convertionfactor, x,caseConverg, con
     flag_stop=1
     inf_count = 0
     foundlast_lines = 0
+    identnum = 'lol'
     while flag_stop:
         file_names=os.listdir(target_dir) # pathmain+'/dsmc_temp%d' %temp_number
         for file_name in file_names:
             
-            if cluster == 'LCC':
-                if file_name.endswith('.out'):
+            if foundlast_lines and file_name.endswith(identnum):
+                
+                os.remove(target_dir+file_name)
+                foundlast_lines = 0
+                
+            else:
+                
+                if cluster == 'LCC':
+                    if file_name.endswith('.out'):
+                        if 'slurm' in file_name:
+                            time.sleep(3)
+                            file_check=(os.path.join(target_dir,file_name))
+                            with open(file_check, 'r') as f4:
+                                last_lines = f4.readlines()[-5:]
+                                foundlast_lines = 1
+                            break
+                elif cluster == 'NASA':
                     if 'slurm' in file_name:
                         time.sleep(3)
                         file_check=(os.path.join(target_dir,file_name))
                         with open(file_check, 'r') as f4:
-                            last_lines = f4.readlines()[-5:]
+                            last_lines = f4.readlines()[-23:]
                             foundlast_lines = 1
                         break
-            elif cluster == 'NASA':
-                if 'slurm' in file_name:
-                    time.sleep(3)
-                    file_check=(os.path.join(target_dir,file_name))
-                    with open(file_check, 'r') as f4:
-                        last_lines = f4.readlines()[-23:]
-                        foundlast_lines = 1
-                    break
                 
         if foundlast_lines:
             for last_line in last_lines:
@@ -457,7 +465,7 @@ def loop_process(cluster, typestl, stlfile, convertionfactor, x,caseConverg, con
                     
                 elif 'UCX  ERROR' not in last_line:
                     flag_stop = 0    
-                    foundlast_lines = 0
+                    
                     
                 else:
                     print('DSMC running %d' %temp_number, flush=True)
