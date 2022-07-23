@@ -452,9 +452,17 @@ def loop_process(cluster, typestl, stlfile, convertionfactor, x,caseConverg, con
                         sys.stdout.write(line)
                     os.remove(target_dir+file_name)
                     os.system('sbatch %s' % f3)
+<<<<<<< HEAD
                     
                 elif 'UCX  ERROR' not in last_line:
                     flag_stop = 0    
+<<<<<<< HEAD
+=======
+=======
+                    foundlast_lines = 0
+                    
+>>>>>>> f00184338100bbbe23ad1a9c059b744dbcbe3bf3
+>>>>>>> bb6975675ee6bb05e5352531dc3087b696aae105
                     
                 else:
                     print('DSMC running %d' %temp_number, flush=True)
@@ -494,6 +502,9 @@ def loop_process(cluster, typestl, stlfile, convertionfactor, x,caseConverg, con
         [x_out[0,2],x_out[0,3],x_out[0,4],x_out[0,5], y_out[2] ]=postprocess(temp_number,domain_extend,pathmain)  # returning T, (P1+P2)/2, K, Perm_force,  timefloat  
         
     else:
+        # add to bigcases.txt the temp_number
+        with open(pathmain+MainName+'/bigcases.txt','a') as f:
+            f.write('%i\n' % temp_number)
         
         f1=open(pathmain+'/dsmc_temp%d/dsmc.input' %temp_number,'r')
         for line in f1:
