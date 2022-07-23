@@ -170,9 +170,20 @@ def automated(cluster, typestl, stlfile, convertionfactor, convergence_flag , Ta
         
     
         print('variable_force_mtx is', variable_force_mtx)
+        flagbigcases = 1
         for i in variable_force_mtx: # 2  1  50  0.770525  100  597.692  1984  1.45948644e-09  7.90595398e-06
             if i[6] == 0:
+
+                
                 domain_extend, temp_number = i[4]*10**(-6), i[5]
+                
+                #Crate file to track bigcases in run
+                with open('bigcases.txt','a') as f:
+                    if flagbigcases:
+                        f.write('Run %i:\n' % run_no)
+                        flagbigcases = 0
+                    f.write('%i\n' % temp_number)
+                
                 bigcasesresults = pp_parallel_fast(temp_number,domain_extend,pathmain) # return T, (P1+P2)/2, K , Perm_force, timefloat
                 
                 
@@ -216,16 +227,16 @@ def automated(cluster, typestl, stlfile, convertionfactor, convergence_flag , Ta
         #     variable_svr_mtx=np.row_stack((variable_svr_mtx,variable_force_mtx))
         #     perm_force_svr=np.row_stack((perm_force_svr,Perm_force))
         
-        #Write Restart file
-        f_r=open('Restart.txt','w+')
-        f_r.write("%d\n" %(run_no+1))
-        for i in range(len(variable_mtx)):
-            for j in range(num_lines):
-                if j<num_lines-1:
-                    f_r.write("%0.4f " %variable_mtx[i,j])
-                else:
-                    f_r.write("%0.4f\n" %variable_mtx[i,j])
-        f_r.close()
+        # #Write Restart file
+        # f_r=open('Restart.txt','w+')
+        # f_r.write("%d\n" %(run_no+1))
+        # for i in range(len(variable_mtx)):
+        #     for j in range(num_lines):
+        #         if j<num_lines-1:
+        #             f_r.write("%0.4f " %variable_mtx[i,j])
+        #         else:
+        #             f_r.write("%0.4f\n" %variable_mtx[i,j])
+        # f_r.close()
         
         email = 'lch285@g.uky.edu'
         phone = '8594901117@txt.att.net' # works for ATT
