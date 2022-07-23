@@ -20,8 +20,8 @@ if __name__ == '__main__':
     cluster = 'NASA' # either 'LCC' , 'NASA', or 'MCC'
     typestl = 'XRCT' # either 'XRCT' or 'Fibergen'
     
-    stlfile = '200cube.stl'
-    convertionfactor = '10**-6'
+    stlfile = '1500CubeShrinkwrap3.8M.stl'
+    convertionfactor = '10**-9'
     
     poolsize = 6
     maxjobperrun = 25
@@ -30,7 +30,7 @@ if __name__ == '__main__':
     Convergence test
     
     """
-    convergence_flag = False
+    convergence_flag = True
     
     if convergence_flag:
         # Just change one at a time
@@ -44,7 +44,7 @@ if __name__ == '__main__':
             TandP.append(Length)
         
         spacefraction = [2] # resolution in space
-        timefraction = [5, 7, 12, 15] # resolution in time
+        timefraction = [ 12, 15] # resolution in time
         numtimesteps = None # either a [number] or  None and fix targettimefraction and targettime accordingly
         
         
@@ -107,7 +107,7 @@ if __name__ == '__main__':
     
     """
     
-    lhs_flag = True
+    lhs_flag = False
     
     if lhs_flag:
         casesConverg = [2, 5, 62500] # Convergence criteria
