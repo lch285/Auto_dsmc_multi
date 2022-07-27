@@ -329,7 +329,7 @@ def loop_process(cluster, typestl, stlfile, convertionfactor, x,caseConverg, con
             sys.stdout.write(line)
         
     elif cluster == 'LCC':
-        N_processors = ncells/100000
+        N_processors = ncells/60000
         N_processors_node = 48
         N_nodes = int(N_processors/N_processors_node+1)
         total_processors = N_processors_node*N_nodes
@@ -461,7 +461,7 @@ def loop_process(cluster, typestl, stlfile, convertionfactor, x,caseConverg, con
                     os.remove(target_dir+file_name)
                     os.system('%s %s' % (submitcommand,f3))
                     ERROR_flag = 1
-                elif 'UCX  ERROR' not in last_line:
+                elif 'UCX  ERROR' in last_line:
                     print('Job does not have enough memory!')
                     flag_stop = 0    
                     
