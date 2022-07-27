@@ -312,7 +312,7 @@ def loop_process(cluster, typestl, stlfile, convertionfactor, x,caseConverg, con
 
 
     if cluster == 'NASA':
-        N_processors = ncells/70000
+        N_processors = ncells/50000
         N_processors_node = 20
         N_nodes = int(N_processors/N_processors_node+1)
         total_processors = N_processors_node*N_nodes
@@ -524,8 +524,8 @@ def loop_process(cluster, typestl, stlfile, convertionfactor, x,caseConverg, con
     #Simulations results
      
     #copy files to results folder
-    files2save = ['dsmc.input', 'collision.list', 'species.list', 'inputdeck.in', 'flow.output', 'DSMC_script.py', \
-                 'microstructure_values.dat', 'pp_parallel_auto.py', 'pp_parallelFast.py']
+    files2save = ['dsmc.input', 'collision.list', 'species.list', 'inputdeck.in', 'flow.output', 'DSMC_script_multy.py', \
+                 'microstructure_values.dat', 'pp_parallel_auto.py', 'pp_parallelFast.py', 'settings.py']
         
     for file in files2save:
         savepath = '/dsmc_temp%d/%s' % (temp_number, file)
