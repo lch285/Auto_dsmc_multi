@@ -354,7 +354,8 @@ def loop_process(cluster, typestl, stlfile, convertionfactor, x,caseConverg, con
         
         f3='submitMCC.sh' #change to submit file
         for line in fileinput.input(f3,inplace=1):
-            line=line.replace('#SBATCH -n nodes','#SBATCH -n %i'%N_nodes,1)
+            line=line.replace('#SBATCH --job-name=np_101','#SBATCH --job-name=np_10%d' % temp_number,1)
+            line=line.replace('--nodes=nodes','--nodes=%i'%N_nodes,1)
             line=line.replace('totalprocessors','%i'%total_processors,1)
             sys.stdout.write(line)
 
