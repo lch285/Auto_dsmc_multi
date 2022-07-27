@@ -347,10 +347,13 @@ def loop_process(cluster, typestl, stlfile, convertionfactor, x,caseConverg, con
             sys.stdout.write(line)
 
     elif cluster == 'MCC':
-        N_processors = ncells/100000
+        N_processors = ncells/70000
         N_processors_node = 128
         N_nodes = int(N_processors/N_processors_node+1)
         total_processors = N_processors_node*N_nodes
+        if total_processors > 1408:
+            total_processors = int(1408/N_processors_node)*N_processors_node
+            N_nodes = total_processors/N_processors_node
         
         f3='submitMCC.sh' #change to submit file
         for line in fileinput.input(f3,inplace=1):
