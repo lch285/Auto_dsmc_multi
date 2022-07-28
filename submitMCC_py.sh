@@ -12,5 +12,5 @@ module load ccs/conda/python/3.9.6
 source ~/conda_init.sh
 conda activate myenv
 
-python automated_porosity.py
+python settings.py
 conda deactivate 
