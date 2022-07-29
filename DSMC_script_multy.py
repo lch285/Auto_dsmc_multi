@@ -400,7 +400,7 @@ def loop_process(cluster, typestl, stlfile, convertionfactor, x,caseConverg, con
                 foundlast_lines = 0
             else:
                 foundlast_lines = 0 
-                if cluster == 'LCC':
+                if cluster == 'LCC' or cluster == 'MCC':
                     if file_name.endswith('.out'):
                         if 'slurm' in file_name:
                             time.sleep(3)
