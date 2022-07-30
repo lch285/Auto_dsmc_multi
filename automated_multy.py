@@ -178,7 +178,7 @@ def automated(cluster, typestl, stlfile, convertionfactor, convergence_flag , Ta
             if i[6] == 0:
        
                 domain_extend, temp_number = i[4]*10**(-6), i[5]
-         
+                print('Entering pp_parallel_fast for temp%i'%temp_number)
                 bigcasesresults = pp_parallel_fast(temp_number,domain_extend,pathmain) # return T, (P1+P2)/2, K , Perm_force, timefloat
        
                 bigcasesresults = np.hstack((i[:5],bigcasesresults))
