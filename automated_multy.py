@@ -107,23 +107,23 @@ def automated(cluster, typestl, stlfile, convertionfactor, convergence_flag , Ta
                     s_out=line.split()
                     n_out=len(s_out)
                     if flag==0:
-                        variable_svr_mtx=np.zeros((1,n_out-1))
+                        variable_svr_mtx=np.zeros((1,n_out-8))
                         perm_force_svr=np.zeros((1,1))
                     if flag==1:
-                        temp_svr=np.zeros((1,n_out-1))
+                        temp_svr=np.zeros((1,n_out-8))
                         temp_perm=np.zeros((1,1))
-                        for i in range(n_out):
-                            if i<n_out-1:
-                                temp_svr[0,i]=s_out[i]
+                        for i in range(6, n_out-1):
+                            if i<n_out-2:
+                                temp_svr[0,i-6]=s_out[i]
                             else:
                                 temp_perm[0,0]=s_out[i]
                         variable_svr_mtx=np.row_stack((variable_svr_mtx,temp_svr))
                         perm_force_svr=np.row_stack((perm_force_svr,temp_perm))
                     if s_out[0]!='Temp' and flag==0:
                         flag=1
-                        for i in range(n_out):
-                            if i<n_out-1:
-                                variable_svr_mtx[0,i]=s_out[i]
+                        for i in range(6,n_out-1):
+                            if i<n_out-2:
+                                variable_svr_mtx[0,i-6]=s_out[i]
                             else:
                                 perm_force_svr[0,0]=s_out[i]
             f_out.close()

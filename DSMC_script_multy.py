@@ -354,7 +354,8 @@ def loop_process(cluster, typestl, stlfile, convertionfactor, x,caseConverg, con
         if total_processors > 1408:
             total_processors = int(1408/N_processors_node)*N_processors_node
             N_nodes = total_processors/N_processors_node
-        
+
+        submitcommand = 'sbatch'
         f3='submitMCC.sh' #change to submit file
         for line in fileinput.input(f3,inplace=1):
             line=line.replace('#SBATCH --job-name=np_101','#SBATCH --job-name=np_10%d' % temp_number,1)
@@ -399,7 +400,7 @@ def loop_process(cluster, typestl, stlfile, convertionfactor, x,caseConverg, con
                 foundlast_lines = 0
             else:
                 foundlast_lines = 0 
-                if cluster == 'LCC':
+                if cluster == 'LCC' or cluster == 'MCC':
                     if file_name.endswith('.out'):
                         if 'slurm' in file_name:
                             time.sleep(3)
