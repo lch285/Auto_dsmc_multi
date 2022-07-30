@@ -413,7 +413,7 @@ def loop_process(cluster, typestl, stlfile, convertionfactor, x,caseConverg, con
                         time.sleep(3)
                         file_check=(os.path.join(target_dir,file_name))
                         with open(file_check, 'r') as f4:
-                            last_lines = f4.readlines()[-23:]
+                            last_lines = f4.readlines()[-5:]
                             foundlast_lines = 1
                         break
                 
