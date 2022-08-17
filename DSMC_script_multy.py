@@ -305,7 +305,7 @@ def loop_process(cluster, typestl, stlfile, convertionfactor, x,caseConverg, con
         if 'avgtime' in line:
             line=line.replace('avgtime',str(int(caseConverg[2]/2)),1)
         if 'totaltimesteps' in line:
-            line=line.replace('totaltimesteps',str(caseConverg[2]),1)
+            line=line.replace('totaltimesteps',str(int(caseConverg[2])),1)
         sys.stdout.write(line)
     
     # Get number of nodes and processes
