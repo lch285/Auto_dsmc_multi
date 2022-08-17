@@ -125,7 +125,7 @@ def pp_parallel_fast(temp_number,domain_extend,pathmain):
         if ('run') in line:
             s=tuple(line.split())
             timestep = s[1]+'\n'
-            timefloat = float(s[1])
+            timefloat = int(s[1])
             
 
     micro_domain[0,0]=sep_lim[0,0]+domain_extend # if not a voxell file uncoment
