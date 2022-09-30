@@ -49,6 +49,8 @@ if __name__ == '__main__':
         Pconverg = 2000 # Pa
         TandP = [Tconverg, Pconverg]
         
+        species_var = ['CO']
+        
         if typestl == 'Fibergen':
             Length = 100 # Length of the Fibergen volume
             TandP.append(Length)
@@ -88,6 +90,7 @@ if __name__ == '__main__':
         
         Temperature = np.arange( 600, 700, 100) # (start, end, incremet) end will not get executed
         Pressure = np.arange( 500, 2500, 500) # (start, end, incremet) end will not get executed
+        species_var = ['CO', 'CO2']
         
         if typestl == 'Fibergen':
             Length = np.arange(50, 150, 100) # (start, end, incremet) end will not get executed
@@ -128,6 +131,8 @@ if __name__ == '__main__':
         Tmax = 400
         Pmin = 1000
         Pmax = 2000
+        
+        species_var = ['Ar']
         
         if typestl == 'Fibergen':
             

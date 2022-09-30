@@ -163,9 +163,11 @@ def automated(cluster, typestl, stlfile, convertionfactor, convergence_flag , Ta
         pool = mp.Pool(poolsize)
         
         if convergence_flag:
-            variable_force_mtx = np.array(pool.starmap(loop_process,[( cluster, typestl, stlfile, convertionfactor, TandP, i, convergence_flag,  np.asarray(np.where(np.all(sim_mtx==i,axis=1))),sims,pathmain,MainName, species_var) for i in sim_mtx]))
+            for specie in species_var:
+                variable_force_mtx = np.array(pool.starmap(loop_process,[( cluster, typestl, stlfile, convertionfactor, TandP, i, convergence_flag,  np.asarray(np.where(np.all(sim_mtx==i,axis=1))),sims,pathmain,MainName, specie) for i in sim_mtx]))
         else:
-            variable_force_mtx = np.array(pool.starmap(loop_process,[( cluster, typestl, stlfile, convertionfactor, i, casesConverg, convergence_flag, np.asarray(np.where(np.all(sim_mtx==i,axis=1))),sims,pathmain,MainName, species_var) for i in sim_mtx]))
+            for specie in species_var:
+                variable_force_mtx = np.array(pool.starmap(loop_process,[( cluster, typestl, stlfile, convertionfactor, i, casesConverg, convergence_flag, np.asarray(np.where(np.all(sim_mtx==i,axis=1))),sims,pathmain,MainName, specie) for i in sim_mtx]))
 
         pool.close()
         
