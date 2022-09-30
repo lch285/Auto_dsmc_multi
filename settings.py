@@ -17,20 +17,30 @@ if __name__ == '__main__':
     Basic settings
     
     """
-    cluster = 'NASA' # either 'LCC' , 'NASA', or 'MCC'
+    cluster = 'MCC' # either 'LCC' , 'NASA', or 'MCC'
     typestl = 'XRCT' # either 'XRCT' or 'Fibergen'
     
-    stlfile = '1500CubeShrinkwrap3.8M.stl'
+    stlfile = '1000CubeRaw.tif.filtered.filtered.labeled.stl'
     convertionfactor = '10**-9'
     
     poolsize = 6
     maxjobperrun = 25
+
+    ########## CHECK SPECIES!!!!!! ##########
+
+    #Choose species
+    # species_list=['CO','N2','Ar','O2','CO2']
+    # random.seed(random.random())
+    # spec=random.choice(species_list)
+    species_var = "CO"
+
+    ########## CHECK SPECIES!!!!!! ##########
     
     """
     Convergence test
     
     """
-    convergence_flag = True
+    convergence_flag = False
     
     if convergence_flag:
         # Just change one at a time
@@ -44,8 +54,8 @@ if __name__ == '__main__':
             TandP.append(Length)
         
         spacefraction = [2] # resolution in space
-        timefraction = [ 12, 15] # resolution in time
-        numtimesteps = None # either a [number] or  None and fix targettimefraction and targettime accordingly
+        timefraction = [3] # resolution in time
+        numtimesteps = [100] # either a [number] or  None and fix targettimefraction and targettime accordingly
         
         
         targettimefraction = 3
@@ -72,12 +82,12 @@ if __name__ == '__main__':
     
     """
     
-    regular_flag = False
+    regular_flag = True
     if regular_flag:
-        casesConverg = [2, 5, 62500] # Convergence criteria
+        casesConverg = [2, 3, 175000] # Convergence criteria
         
-        Temperature = np.arange( 300, 400, 100) # (start, end, incremet) end will not get executed
-        Pressure = np.arange( 250, 350, 100) # (start, end, incremet) end will not get executed
+        Temperature = np.arange( 600, 700, 100) # (start, end, incremet) end will not get executed
+        Pressure = np.arange( 500, 2500, 500) # (start, end, incremet) end will not get executed
         
         if typestl == 'Fibergen':
             Length = np.arange(50, 150, 100) # (start, end, incremet) end will not get executed
@@ -110,7 +120,7 @@ if __name__ == '__main__':
     lhs_flag = False
     
     if lhs_flag:
-        casesConverg = [2, 5, 62500] # Convergence criteria
+        casesConverg = [2, 3, 175000] # Convergence criteria
         
         Npoints = 2 # Number of points to generate
         
@@ -153,7 +163,7 @@ if __name__ == '__main__':
         
         if os.path.exists(stlfile) or typestl == 'Fibergen':
         
-            automated(cluster, typestl, stlfile, convertionfactor, convergence_flag , TandP, casesConverg, poolsize, maxjobperrun)
+            automated(cluster, typestl, stlfile, convertionfactor, convergence_flag , TandP, casesConverg, poolsize, maxjobperrun, species_var)
             
         else:
             print('stl file does not exist!!')

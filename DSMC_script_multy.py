@@ -17,7 +17,7 @@ import subprocess
 from pp_generalized_auto import postprocess
 
 
-def loop_process(cluster, typestl, stlfile, convertionfactor, x,caseConverg, convergence_flag, ident,sims,pathmain,MainName):
+def loop_process(cluster, typestl, stlfile, convertionfactor, x,caseConverg, convergence_flag, ident,sims,pathmain,MainName, species_var):
     temp_number=ident[0,0]+sims
     #Create temp folder
     path=pathmain+'/dsmc_temp%d' %temp_number
@@ -195,7 +195,7 @@ def loop_process(cluster, typestl, stlfile, convertionfactor, x,caseConverg, con
     # species_list=['CO','N2','Ar','O2','CO2']
     # random.seed(random.random())
     # spec=random.choice(species_list)
-    spec='Ar'
+    spec= species_var
     f='dsmc.input'
     for line in fileinput.input(f,inplace=1):
         if 'species species.list' in line:
@@ -303,7 +303,7 @@ def loop_process(cluster, typestl, stlfile, convertionfactor, x,caseConverg, con
         if 'fix out emit/face' in line:
             line=line.replace('P2',str(x[1]-50),1)
         if 'avgtime' in line:
-            line=line.replace('avgtime',str(int(caseConverg[2]/2)),1)
+            line=line.replace('avgtime',str(int(caseConverg[2]-30000)),1)
         if 'totaltimesteps' in line:
             line=line.replace('totaltimesteps',str(int(caseConverg[2])),1)
         sys.stdout.write(line)

@@ -15,7 +15,7 @@ from DSMC_script_multy import loop_process
 from pp_parallel_auto import pp_parallel_fast
 from alert import alert
 
-def automated(cluster, typestl, stlfile, convertionfactor, convergence_flag , TandP, casesConverg, poolsize, maxjobperrun):
+def automated(cluster, typestl, stlfile, convertionfactor, convergence_flag , TandP, casesConverg, poolsize, maxjobperrun, species_var):
     
     # Get path and main folder name
     path = os.getcwd()
@@ -163,9 +163,9 @@ def automated(cluster, typestl, stlfile, convertionfactor, convergence_flag , Ta
         pool = mp.Pool(poolsize)
         
         if convergence_flag:
-            variable_force_mtx = np.array(pool.starmap(loop_process,[( cluster, typestl, stlfile, convertionfactor, TandP, i, convergence_flag,  np.asarray(np.where(np.all(sim_mtx==i,axis=1))),sims,pathmain,MainName) for i in sim_mtx]))
+            variable_force_mtx = np.array(pool.starmap(loop_process,[( cluster, typestl, stlfile, convertionfactor, TandP, i, convergence_flag,  np.asarray(np.where(np.all(sim_mtx==i,axis=1))),sims,pathmain,MainName, species_var) for i in sim_mtx]))
         else:
-            variable_force_mtx = np.array(pool.starmap(loop_process,[( cluster, typestl, stlfile, convertionfactor, i, casesConverg, convergence_flag, np.asarray(np.where(np.all(sim_mtx==i,axis=1))),sims,pathmain,MainName) for i in sim_mtx]))
+            variable_force_mtx = np.array(pool.starmap(loop_process,[( cluster, typestl, stlfile, convertionfactor, i, casesConverg, convergence_flag, np.asarray(np.where(np.all(sim_mtx==i,axis=1))),sims,pathmain,MainName, species_var) for i in sim_mtx]))
 
         pool.close()
         
@@ -231,9 +231,9 @@ def automated(cluster, typestl, stlfile, convertionfactor, convergence_flag , Ta
         #             f_r.write("%0.4f\n" %variable_mtx[i,j])
         # f_r.close()
         
-        email = 'lch285@g.uky.edu'
-        phone = '8594901117@txt.att.net' # works for ATT
+        email = 'bdde223@uky.edu'
+       # phone = '8594901117@txt.att.net' # works for ATT
         alert('JobStatus', 'The simulations are done!', email)
-        alert('JobStatus', 'The simulations are done!', phone)
+       # alert('JobStatus', 'The simulations are done!', phone)
         
         print('All done!!!')
