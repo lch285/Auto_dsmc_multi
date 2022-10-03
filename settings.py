@@ -26,15 +26,6 @@ if __name__ == '__main__':
     poolsize = 6
     maxjobperrun = 25
 
-    ########## CHECK SPECIES!!!!!! ##########
-
-    #Choose species
-    # species_list=['CO','N2','Ar','O2','CO2']
-    # random.seed(random.random())
-    # spec=random.choice(species_list)
-    species_var = "CO"
-
-    ########## CHECK SPECIES!!!!!! ##########
     
     """
     Convergence test
@@ -89,7 +80,7 @@ if __name__ == '__main__':
         casesConverg = [2, 3, 175000] # Convergence criteria
         
         Temperature = np.arange( 600, 700, 100) # (start, end, incremet) end will not get executed
-        Pressure = np.arange( 500, 2500, 500) # (start, end, incremet) end will not get executed
+        Pressure = np.arange( 500, 1000, 500) # (start, end, incremet) end will not get executed
         species_var = ['CO', 'CO2']
         
         if typestl == 'Fibergen':
